@@ -4,6 +4,7 @@ import operator
 from collections import Counter
 from itertools import groupby
 from operator import itemgetter
+import math
 #########################################################
 # store the input file in a variable "input_file"
 input_file = "input/Border_Crossing_Entry_Data.csv"
@@ -157,7 +158,15 @@ multiple_measure = {k:v for k,v in measures.items() if multiples[v] > 1}
 date_min = min(dates.values())
 date_max = max(dates.values())
 
-
+###########################################################
+# create a function to round numbers, with 0.5 rounding to 1
+def round_num(num):
+    if num < 0:
+        add_num = num-0.5
+        return int(add_num)
+    else:
+        add_num = num+0.5
+        return int(add_num)
 ##########################################################
 # use conditionals to populate the average column
 count_value = 0
@@ -168,7 +177,7 @@ for i,v in multiple_measure.items():
     if dates[i] == date_min:
         sorted_group[i][4] = 0
     else:
-        sorted_group[i][4] = round((count_value - values[i])/(counter-1))
+        sorted_group[i][4] = round_num((count_value - values[i])/(counter-1))
 ###########################################################
 # final sorting of dictionary output
 final_sort = sorted(sorted_group, key=itemgetter(0,2,1,3), reverse=True)
